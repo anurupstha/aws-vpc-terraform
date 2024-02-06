@@ -51,3 +51,18 @@ resource "aws_internet_gateway" "public_internet_gateway" {
     Name = "IGW: For aws-vpc-project"
   }
 }
+
+# Create NAT Gateway
+resource "aws_nat_gateway" "nat_gateway" {
+  count = length(var.public_subnet_cidr)
+  allocation_id = aws_eip.nat_eip[count.index].id
+  subnet_id     = aws_subnet.public-subnet[count.index].id
+  tags = {
+    Name = "NAT-Gateway: For aws-vpc-project"
+  }
+}
+# Elastic IP for the NAT gateway
+resource "aws_eip" "nat_eip" {
+  count = length(var.public_subnet_cidr)
+  vpc = true
+}
