@@ -52,17 +52,18 @@ resource "aws_internet_gateway" "public_internet_gateway" {
   }
 }
 
-# Create NAT Gateway
-resource "aws_nat_gateway" "nat_gateway" {
-  count = length(var.public_subnet_cidr)
-  allocation_id = aws_eip.nat_eip[count.index].id
-  subnet_id     = aws_subnet.public-subnet[count.index].id
-  tags = {
-    Name = "NAT-Gateway: For aws-vpc-project"
-  }
-}
-# Elastic IP for the NAT gateway
+# Elastic IPs for the NAT Gateways
 resource "aws_eip" "nat_eip" {
-  count = length(var.public_subnet_cidr)
+  count = length(var.private_subnet_cidr)
   vpc = true
+}
+
+# Create NAT Gateway for private subnet
+resource "aws_nat_gateway" "nat_gateway" {
+  count = length(var.private_subnet_cidr)
+  allocation_id = aws_eip.nat_eip[count.index].id
+  subnet_id     = aws_subnet.private-subnet[count.index].id
+  tags = {
+    Name = "Private NAT GW: For aws-vpc-project"
+  }
 }
