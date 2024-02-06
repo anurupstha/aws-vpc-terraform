@@ -17,7 +17,7 @@ resource "aws_vpc" "vpc-demo-us-east-1" {
 terraform {
   backend "s3" {
     bucket         = "terraform-state-github-actions"
-    key            = "/vpc-aws-project/terraform.tfstate"
+    key            = "vpc-aws-project/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "vpc-aws-project"
   } 
