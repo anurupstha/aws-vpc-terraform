@@ -13,7 +13,6 @@ resource "aws_vpc" "vpc-demo-us-east-1" {
 }
 
 # Terraform state in S3 bucket with locking ID
-
 terraform {
   backend "s3" {
     bucket         = "terraform-state-github-actions"
@@ -44,4 +43,11 @@ resource "aws_subnet" "private-subnet" {
     Name = "Subnet-Private: Private Subnet-${count.index + 1}"
   }
 }
-   
+
+# Create Internet Gateway
+resource "aws_internet_gateway" "public_internet_gateway" {
+  vpc_id = aws_vpc.vpc-demo-us-east-1.id
+  tags = {
+    Name = "IGW: For aws-vpc-project"
+  }
+}
