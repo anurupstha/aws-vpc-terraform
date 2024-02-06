@@ -26,10 +26,11 @@ variable "private_subnet_cidr" {
 }
 
 # Variable for east-us-1 availability zone
+
 variable "availability_zone" {
   description = "AWS Availability Zone"
   type        = list(string)
-  default     = ["us-west-1a", "us-west-1b"]
+  default     = ["us-east-1a", "us-east-1b"]
 }
 
 
