@@ -18,6 +18,8 @@ resource "aws_instance" "public_ec2" {
               sudo apt install -y apache2
               echo '<h1>Hello, World!</h1>' | sudo tee /var/www/html/index.html
               EOF
+#Enable public IP for Ec2 instance
+    associate_public_ip_address = true
  tags = {
    Name = "Public EC2: For aws-vpc-project"
  }
