@@ -93,5 +93,19 @@ resource "aws_route_table" "private_route_table" {
       Name = "RT Private Route Table: For aws-vpc-project"
     }
 }
+# Associate Public Subnet with Public Route Table
+resource "aws_route_table_association" "public_rt_assoc" {
+  count = length(var.public_subnet_cidr)
+  depends_on = [ aws_subnet.public-subnet, aws_route_table.public_route_table ]
+  subnet_id      = aws_subnet.public-subnet[count.index].id
+  route_table_id = aws_route_table.public_route_table.id
+}
+# Associate the Private Route tables to each of their respective AZs
+resource "aws_route_table_association" "private_rt_assoc" {
+  count = length(var.private_subnet_cidr)
+  depends_on = [ aws_subnet.private-subnet, aws_route_table.private_route_table ]
+  subnet_id      = aws_subnet.private-subnet[count.index].id
+  route_table_id = aws_route_table.private_route_table[count.index].id
+}
 
  
