@@ -5,10 +5,6 @@ data "aws_subnet" "public_subnet" {
  }
  depends_on = [aws_route_table_association.public_rt_assoc]
 }
-# Configure the AWS Provider
-provider "aws" {
-  region = "us-east-1"
-}
 #Deploy EC2 instance in the public subnet
 resource "aws_instance" "public_ec2" {
  ami           = "ami-0c7217cdde317cfec"
